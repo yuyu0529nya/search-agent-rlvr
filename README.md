@@ -21,6 +21,15 @@ design, and diagnostics — all my own, on top of vLLM + QLoRA. No veRL, no TRL.
    **KL-to-base anchor vs. dense process reward vs. length-aware advantage (÷√L)** — the
    mechanism-targeted **length-aware advantage wins**, removing the late-training collapse.
 
+## The over-optimization curve
+![Search-agent RLVR: held-out EM by GRPO iteration](reports/search_agent_overopt_curve.svg)
+
+*The binary-reward run: held-out Exact-Match climbs from base 0.390 to 0.460 (p = 0.01),
+then **collapses** as the policy over-optimizes the metric (answers shrink to ~7 chars).
+This is exactly the failure the token-F1 + length-aware-advantage fixes remove.*
+Detailed round-by-round results (binary → F1 → KL / process-reward / LATA ablation, plus the
+multi-trial nail-down) are in [`reports/search_agent_rlvr_findings.md`](reports/search_agent_rlvr_findings.md).
+
 ## What's in the trainer (`scripts/grpo/`)
 - **`grpo_update.py`** — GRPO from scratch: group-relative advantage `(r − mean)/(std + ε)`,
   **outcome-variance advantage gating** (drop no-contrast groups), **length-aware advantage**,

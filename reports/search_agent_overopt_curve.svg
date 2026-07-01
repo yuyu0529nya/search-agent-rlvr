@@ -1,0 +1,71 @@
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+  <title>Search-agent RLVR: held-out EM by GRPO iteration</title>
+  <desc>Held-out exact match rises base 0.390 to iter3 0.460 (significant, p=0.01) then collapses to iter4 0.247, as answer length over-compresses from 24 to 7 characters.</desc>
+  <text x="40" y="28" font-size="16" font-weight="500" fill="#1a1a1a">Search-agent RLVR: held-out EM peaks at iter-3, then over-optimizes</text>
+
+  <!-- axes -->
+  <line x1="80" y1="50" x2="80" y2="330" stroke="#999" stroke-width="1"/>
+  <line x1="640" y1="50" x2="640" y2="330" stroke="#BA7517" stroke-width="1"/>
+  <line x1="80" y1="330" x2="640" y2="330" stroke="#999" stroke-width="1"/>
+
+  <!-- left axis ticks (EM) -->
+  <text x="72" y="334" font-size="11" fill="#666" text-anchor="end">0.20</text>
+  <text x="72" y="241" font-size="11" fill="#666" text-anchor="end">0.30</text>
+  <text x="72" y="147" font-size="11" fill="#666" text-anchor="end">0.40</text>
+  <text x="72" y="54" font-size="11" fill="#666" text-anchor="end">0.50</text>
+  <text x="30" y="195" font-size="12" fill="#185FA5" transform="rotate(-90 30 195)" text-anchor="middle">held-out EM</text>
+
+  <!-- right axis ticks (answer length) -->
+  <text x="648" y="334" font-size="11" fill="#BA7517">0</text>
+  <text x="648" y="264" font-size="11" fill="#BA7517">7</text>
+  <text x="648" y="194" font-size="11" fill="#BA7517">14</text>
+  <text x="648" y="124" font-size="11" fill="#BA7517">21</text>
+  <text x="648" y="54" font-size="11" fill="#BA7517">28</text>
+  <text x="690" y="195" font-size="12" fill="#BA7517" transform="rotate(90 690 195)" text-anchor="middle">answer length (chars)</text>
+
+  <!-- x labels -->
+  <text x="120" y="350" font-size="12" fill="#444" text-anchor="middle">base</text>
+  <text x="245" y="350" font-size="12" fill="#444" text-anchor="middle">iter1</text>
+  <text x="370" y="350" font-size="12" fill="#444" text-anchor="middle">iter2</text>
+  <text x="495" y="350" font-size="12" fill="#444" text-anchor="middle">iter3</text>
+  <text x="620" y="350" font-size="12" fill="#444" text-anchor="middle">iter4</text>
+
+  <!-- answer length line (dashed amber) -->
+  <polyline points="120,87 245,235 370,227 495,222 620,259" fill="none" stroke="#BA7517" stroke-width="2" stroke-dasharray="6 4"/>
+  <g fill="#BA7517">
+    <rect x="116" y="83" width="8" height="8" transform="rotate(45 120 87)"/>
+    <rect x="241" y="231" width="8" height="8" transform="rotate(45 245 235)"/>
+    <rect x="366" y="223" width="8" height="8" transform="rotate(45 370 227)"/>
+    <rect x="491" y="218" width="8" height="8" transform="rotate(45 495 222)"/>
+    <rect x="616" y="255" width="8" height="8" transform="rotate(45 620 259)"/>
+  </g>
+
+  <!-- EM line (blue) -->
+  <polyline points="120,153 245,137 370,134 495,87 620,286" fill="none" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="120" cy="153" r="5" fill="#185FA5"/>
+  <circle cx="245" cy="137" r="5" fill="#185FA5"/>
+  <circle cx="370" cy="134" r="5" fill="#185FA5"/>
+  <circle cx="495" cy="87" r="7" fill="#639922"/>
+  <circle cx="620" cy="286" r="7" fill="#E24B4A"/>
+
+  <!-- value labels -->
+  <text x="120" y="170" font-size="11" fill="#185FA5" text-anchor="middle">0.390</text>
+  <text x="245" y="127" font-size="11" fill="#185FA5" text-anchor="middle">0.407</text>
+  <text x="370" y="124" font-size="11" fill="#185FA5" text-anchor="middle">0.410</text>
+  <text x="495" y="77" font-size="11" fill="#3B6D11" font-weight="500" text-anchor="middle">0.460</text>
+  <text x="620" y="305" font-size="11" fill="#A32D2D" font-weight="500" text-anchor="middle">0.247</text>
+
+  <!-- annotations -->
+  <text x="495" y="60" font-size="11" fill="#3B6D11" text-anchor="middle">+7.0  p=0.01  *</text>
+  <text x="618" y="270" font-size="11" fill="#A32D2D" text-anchor="end">collapse</text>
+
+  <!-- legend -->
+  <rect x="95" y="372" width="11" height="3" fill="#185FA5"/>
+  <text x="112" y="378" font-size="11" fill="#444">held-out EM (left)</text>
+  <line x1="250" y1="373" x2="262" y2="373" stroke="#BA7517" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="268" y="378" font-size="11" fill="#444">answer length (right)</text>
+  <circle cx="430" cy="373" r="4" fill="#639922"/>
+  <text x="440" y="378" font-size="11" fill="#444">peak</text>
+  <circle cx="490" cy="373" r="4" fill="#E24B4A"/>
+  <text x="500" y="378" font-size="11" fill="#444">over-optimized</text>
+</svg>
