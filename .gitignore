@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+*.safetensors
+*.tgz
+*.tar.gz
+*.zip
+*.jsonl
+*.log
+outputs/
+models/
+.env
+.claude/
