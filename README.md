@@ -5,6 +5,13 @@ agent** (`<search>` → BM25 over a HotpotQA corpus → `<answer>`) with a **ver
 reward** (exact-match / token-F1). Trainer, on-policy rollout + evaluation harness, reward
 design, and diagnostics — all my own, on top of vLLM + QLoRA. No veRL, no TRL.
 
+> This is the **controlled-environment RL-science leg** of a two-repo project: the deterministic
+> reward isolates measurement noise, so RL failure modes (reward over-optimization) can be studied
+> mechanistically. The hard-environment headline — a noisy multi-turn tool-calling agent where
+> three RL nulls were diagnosed as gradient starvation and flipped into pass^1 **0.20 → 0.41 →
+> 0.55** via teacher-distillation warm-start + GRPO — lives in the companion repo
+> [**tau2-agentic-rl**](https://github.com/yuyu0529nya/tau2-agentic-rl).
+
 ## Headline
 - **Held-out Exact-Match 38.7% → 49.3% (+10.7 points)** — McNemar **p < 0.001** (n = 300),
   reconfirmed with multi-trial evaluation at **n = 2400, p < 1e-30**.
