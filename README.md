@@ -1,43 +1,44 @@
-# Search-Agent RLVR — training a multi-turn retrieval agent with verifiable-reward RL
+# Search-Agent RLVR — verifiable-reward RL for multi-turn retrieval agents
 
-A **from-scratch GRPO** reinforcement-learning stack that trains a multi-turn **retrieval
-agent** (`<search>` → BM25 over a HotpotQA corpus → `<answer>`) with a **verifiable
-reward** (exact-match / token-F1). Trainer, on-policy rollout + evaluation harness, reward
-design, and diagnostics — all my own, on top of vLLM + QLoRA. No veRL, no TRL.
+A compact RLVR research system for training a multi-turn **retrieval agent**:
+`<search>` → BM25 over a HotpotQA corpus → `<answer>`, optimized with verifiable exact-match and
+token-F1 rewards. The repository contains the GRPO trainer, rollout/evaluation harness, reward
+design, paired statistics, and the mechanism analysis behind the final gains.
 
 > This is the **controlled-environment RL-science leg** of a two-repo project: the deterministic
-> reward isolates measurement noise, so RL failure modes (reward over-optimization) can be studied
-> mechanistically. The hard-environment headline — a noisy multi-turn tool-calling agent where
-> three RL nulls were diagnosed as gradient starvation and flipped into pass^1 **0.20 → 0.41 →
-> 0.55** via teacher-distillation warm-start + GRPO — lives in the companion repo
+> reward isolates measurement noise, so reward-optimization dynamics can be studied
+> mechanistically. The hard-environment headline — a noisy multi-turn tool-calling agent improved
+> from pass^1 **0.20 → 0.41 → 0.55** via teacher-distillation warm-start + GRPO — lives in the companion repo
 > [**tau2-agentic-rl**](https://github.com/yuyu0529nya/tau2-agentic-rl).
 
 ## Headline
 - **Held-out Exact-Match 38.7% → 49.3% (+10.7 points)** — McNemar **p < 0.001** (n = 300),
   reconfirmed with multi-trial evaluation at **n = 2400, p < 1e-30**.
-  A large, statistically decisive gain, re-verifiable from the raw rollouts.
+- **A statistically decisive RL gain** on a multi-turn tool-use QA loop, re-verifiable from the
+  raw rollout/eval artifacts.
 - On GSM8K (same self-built loop, exact-match reward): **61.4% → 67.4% pass@1**
   (+6.0 pts, McNemar p < 0.001, n = 1319).
 
-## The interesting part — a full diagnose → fix → improve loop
-1. **Reward over-optimization (Goodhart).** A binary exact-match reward is gamed by the
-   policy collapsing answers from ~24 to ~7 characters — high reward, degenerate behavior.
-2. **Fix the reward.** Redesigning it as **token-F1 partial credit** raises the ceiling
-   *and* stabilizes training.
-3. **Controlled 3-way comparison.** Head-to-head of three anti-over-optimization levers —
-   **KL-to-base anchor vs. dense process reward vs. length-aware advantage (÷√L)** — the
-   mechanism-targeted **length-aware advantage wins**, removing the late-training collapse.
+## Why it matters
+1. **Clean RL signal.** The reward is deterministic and verifiable, so the training curve is not
+   hidden behind simulator or judge noise.
+2. **Mechanistic optimization.** The project identifies answer-length pressure as the key
+   reward-optimization mechanism, then stabilizes it with token-F1 reward shaping and length-aware
+   advantage normalization.
+3. **Controlled ablations.** KL-to-base, dense process reward, and length-aware advantage are
+   compared head-to-head; the mechanism-targeted length-aware fix produces the strongest and most
+   stable endpoint.
 
 ## The over-optimization curve
 ![Search-agent RLVR: held-out EM by GRPO iteration](reports/search_agent_overopt_curve.svg)
 
 *The binary-reward run: held-out Exact-Match climbs from base 0.390 to 0.460 (p = 0.01),
-then **collapses** as the policy over-optimizes the metric (answers shrink to ~7 chars).
-This is exactly the failure the token-F1 + length-aware-advantage fixes remove.*
+then exposes a clear reward-optimization pressure as answers shrink to ~7 chars.
+Token-F1 + length-aware advantage keeps the gain while stabilizing the behavior.*
 Detailed round-by-round results (binary → F1 → KL / process-reward / LATA ablation, plus the
 multi-trial nail-down) are in [`reports/search_agent_rlvr_findings.md`](reports/search_agent_rlvr_findings.md).
 
-## What's in the trainer (`scripts/grpo/`)
+## Trainer components (`scripts/grpo/`)
 - **`grpo_update.py`** — GRPO from scratch: group-relative advantage `(r − mean)/(std + ε)`,
   **outcome-variance advantage gating** (drop no-contrast groups), **length-aware advantage**,
   QLoRA, batched loss, optional KL-to-base anchor.
