@@ -5,10 +5,11 @@ A compact RLVR research system for training a multi-turn **retrieval agent**:
 token-F1 rewards. The repository contains the GRPO trainer, rollout/evaluation harness, reward
 design, paired statistics, and the mechanism analysis behind the final gains.
 
-> This is the **controlled-environment RL-science leg** of a two-repo project: the deterministic
-> reward isolates measurement noise, so reward-optimization dynamics can be studied
-> mechanistically. The hard-environment headline — a noisy multi-turn tool-calling agent improved
-> from pass^1 **0.20 → 0.41 → 0.55** via teacher-distillation warm-start + GRPO — lives in the companion repo
+> **Part of [Yu-Agentic-RL](https://github.com/yuyu0529nya/Yu-Agentic-RL)** (the flagship
+> overview + shared from-scratch GRPO trainer). This is its **controlled-environment RL-science
+> leg**: the deterministic reward isolates measurement noise, so reward-optimization dynamics can
+> be studied mechanistically. The *hard-environment* leg — a noisy multi-turn tool-calling agent
+> improved from pass^1 **0.20 → 0.41 → 0.55** via teacher-distillation warm-start + GRPO — is
 > [**tau2-agentic-rl**](https://github.com/yuyu0529nya/tau2-agentic-rl).
 
 ## Headline
